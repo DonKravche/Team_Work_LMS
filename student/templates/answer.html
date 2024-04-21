@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Congrats {{ request.user }}</h1>
+{% for subject in faculty_subjects %}
+    <li>
+          <label for="{{ subject.id }}">{{ subject.title }}</label>
+    </li>
+{% endfor %}
+
+
+
+</body>
+</html>

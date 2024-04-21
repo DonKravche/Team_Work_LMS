@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Subjects</title>
+</head>
+<body>
+<h1>Welcome, {{ user.username }}!</h1>
+<h2>Choose Your Subjects:</h2>
+
+<form method="POST" action="{% url 'students_page' %}">
+    {% csrf_token %}
+    <ul>
+        {% for subject in faculty_subjects %}
+            <li>
+                <input type="checkbox" id="{{ subject.id }}" name="students_page" value="{{ subject.id }}">
+                <label for="{{ subject.id }}">{{ subject.title }}</label>
+            </li>
+        {% endfor %}
+    </ul>
+    <form action="students_page.html" method="get">
+        <button type="submit">Submit</button>
+    </form>
+</form>
+</body>
+</html>
