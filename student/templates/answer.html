@@ -2,17 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Chosen Subjects</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #EEEEEE;
+        }
+
+        h1, p {
+            background-color: #627254;
+            color: #DDDDDD;
+            padding: 20px;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .content {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #DDDDDD;
+            border-radius: 5px;
+        }
+
+        .message {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-<h1>Congrats {{ request.user }}</h1>
-{% for subject in faculty_subjects %}
-    <li>
-          <label for="{{ subject.id }}">{{ subject.title }}</label>
-    </li>
-{% endfor %}
-
-
-
+    <h1>Congrats, {{ request.user }}</h1>
+    <div class="content">
+        <div class="message">
+            <p>You have successfully registered on the following subjects:</p>
+            <ul>
+            {% for subject in faculty_subjects %}
+            <li>
+                <label for="{{ subject.id }}">{{ subject.title }}</label>
+            </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
 </body>
 </html>
