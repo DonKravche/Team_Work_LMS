@@ -38,7 +38,7 @@
         <div class="message">
             <p>You have successfully registered on the following subjects:</p>
             <ul>
-            {% for subject in faculty_subjects %}
+            {% for subject in selected_subjects %}
             <li>
                 <label for="{{ subject.id }}">{{ subject.title }}</label>
             </li>
