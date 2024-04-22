@@ -33,14 +33,14 @@
     </style>
 </head>
 <body>
-    <h1>Congrats, {{ request.user }}</h1>
+    <h1>Congrats, {{ user }}</h1>
     <div class="content">
         <div class="message">
             <p>You have successfully registered on the following subjects:</p>
             <ul>
-            {% for subject in faculty_subjects %}
+            {% for subject in user.student.subjects.all %}
             <li>
-                <label for="{{ subject.id }}">{{ subject.title }}</label>
+                {{ subject.title }}
             </li>
             {% endfor %}
             </ul>
