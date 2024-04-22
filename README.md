@@ -83,6 +83,7 @@ To run this project locally, follow these steps:
 ![img_3.png](static/media/readme files/img_3.png)
 
 - https://localhost:8000/admin/ - Default Admin page     
+![img.png](static/media/readme files/img_5.png)
 
 ## Contributors
 - [Don Kravche](Giorgi Kravchenko)
