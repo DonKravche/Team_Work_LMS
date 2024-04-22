@@ -1,12 +1,15 @@
-from django.http import JsonResponse, HttpResponseBadRequest, HttpResponse
+from django.http import HttpResponseBadRequest
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 from .forms import UserRegistrationForm, UserLoginForm
 from .models import Student, Subject
-from django.db import IntegrityError
 
 
 def home(request):
+    return render(request, 'home.html')
+
+
+def login_user(request):
     form = UserLoginForm()
     return render(request, 'login.html', {'form': form})
 
