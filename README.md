@@ -70,7 +70,7 @@ To run this project locally, follow these steps:
 
 ## Endpoints and Interface  
 
-- https://localhost:8000/home/ - Home page   
+- https://localhost:8000/home/ - Home page
 ![img.png](static/media/readme files/img.png)
 
 - http://localhost:8000/student/register/ - Register page   
