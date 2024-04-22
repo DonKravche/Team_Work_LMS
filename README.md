@@ -67,6 +67,7 @@ To run this project locally, follow these steps:
     ```
 6. Open your web browser and go to http://localhost:8000/home/ to access the application.
 
+
 ## Endpoints and Interface  
 
 - https://localhost:8000/home/ - Home page   
@@ -82,3 +83,9 @@ To run this project locally, follow these steps:
 ![img_3.png](static/media/readme files/img_3.png)
 
 - https://localhost:8000/admin/ - Default Admin page     
+
+## Contributors
+- [Don Kravche](Giorgi Kravchenko)
+- [iraklius9](Irakli Meparishvili)
+- [Gvantise](Gvantsa Euashvili)
+
