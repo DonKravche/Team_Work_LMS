@@ -11,6 +11,25 @@
             padding: 0;
             background-color: #EEEEEE;
         }
+        
+        nav {
+            background-color: #76885B;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: #DDDDDD;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #DDDDDD;
+            color: #333;
+        }
 
         h1 {
             background-color: #627254;
@@ -73,6 +92,13 @@
     </style>
 </head>
 <body>
+<nav>
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'login_' %}">Log in</a>
+    <a href="{% url 'register_student' %}">Register</a>
+    <a href="{% url 'admin:index' %}">Admin</a>
+</nav>
+
     <h1>Login</h1>
     <form method="post" action="{% url 'login_' %}">
         {% csrf_token %}

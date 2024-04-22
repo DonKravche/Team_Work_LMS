@@ -46,7 +46,8 @@ def students_page(request):
     if request.method == 'POST':
         selected_subjects_ids = request.POST.getlist('students_page')
         if len(selected_subjects_ids) < 3 or len(selected_subjects_ids) > 7:
-            return HttpResponseBadRequest("You must choose between 3 and 7 subjects.")
+            return render(request, 'students_page.html', {'message': 'Please select at least 3 & max 7 subjects.',
+                                                          'faculty_subjects': faculty_subjects},)
         else:
             selected_subjects = Subject.objects.filter(pk__in=selected_subjects_ids)
             student.subjects.set(selected_subjects)
