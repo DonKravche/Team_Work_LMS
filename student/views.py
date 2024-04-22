@@ -40,19 +40,18 @@ def login_(request):
 
 
 def students_page(request):
+    student = request.user.student
+    faculty_subjects = student.faculty.subjects.all()
+
     if request.method == 'POST':
-        student = request.user.student
-        faculty_subjects = student.faculty.subjects.all()
-        selected_subjects = request.POST.getlist('students_page')
-        if len(selected_subjects) < 3 or len(selected_subjects) > 7:
+        selected_subjects_ids = request.POST.getlist('students_page')
+        if len(selected_subjects_ids) < 3 or len(selected_subjects_ids) > 7:
             return HttpResponseBadRequest("You must choose between 3 and 7 subjects.")
         else:
-            selected_subjects = Subject.objects.filter(pk__in=selected_subjects)
+            selected_subjects = Subject.objects.filter(pk__in=selected_subjects_ids)
             student.subjects.set(selected_subjects)
-            return render(request, 'answer.html', {'user': request.user, 'faculty_subjects': faculty_subjects})
+            return render(request, 'answer.html', {'user': request.user, 'selected_subjects': selected_subjects})
     else:
-        student = request.user.student
-        faculty_subjects = student.faculty.subjects.all()
         context = {
             'user': request.user,
             'faculty_subjects': faculty_subjects
