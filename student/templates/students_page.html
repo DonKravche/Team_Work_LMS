@@ -12,8 +12,27 @@
            font-family: 'Open Sans', sans-serif;
            margin: 0;
            padding: 0;
-           background: linear-gradient(to bottom, #f5f5f5, #e0e0e0);
+           background: #f5f5f5;
        }
+       
+       nav {
+            background-color: #76885B;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: #DDDDDD;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #DDDDDD;
+            color: #333;
+        }
 
        h1 {
            background-color: #3D5A33;
@@ -74,6 +93,10 @@
    </style>
 </head>
 <body>
+<nav>
+    <a href="{% url 'home' %}">Home</a>
+</nav>
+
    <h1>Welcome, {{ user.username }}!</h1>
    <h2>Choose Your Subjects: </h2>
 
@@ -87,5 +110,9 @@
        {% endfor %}
        <button type="submit">Submit</button>
    </form>
+
+    <span style="text-align: center; padding: calc(100%- 50px); display: flex; 
+    justify-content: center; font-weight: bold; color: #9e2820; margin-top: 25px">{{ message }}</span>
+
 </body>
 </html>
