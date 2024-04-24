@@ -1,8 +1,8 @@
-from django.http import HttpResponseBadRequest
-from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
-from student.forms import UserRegistrationForm, UserLoginForm
-from student.models import Student, Subject
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .forms import UserRegistrationForm, UserLoginForm, TaskForm, AssignmentForm, AttendanceForm
+from .models import Student, Subject, Task, Assignment, Attendance, CustomUser
 
 
 def home(request):
@@ -19,7 +19,6 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-
             return redirect('login_')
     else:
         form = UserRegistrationForm()
@@ -32,15 +31,17 @@ def login_(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            student = user.student
-            return redirect('students_page')
+            if user.is_student:
+                return redirect('students_page')
+            elif user.is_lecturer:
+                return redirect('record_attendance', subject_id=1)
     else:
         form = UserLoginForm()
     return render(request, 'login.html', {'form': form})
 
 
 def students_page(request):
-    student = request.user.student
+    student = Student.objects.get(user=request.user)
     faculty_subjects = student.faculty.subjects.all()
 
     if request.method == 'POST':
@@ -63,3 +64,58 @@ def students_page(request):
 def logout_(request):
     logout(request)
     return redirect('home')
+
+
+def create_task(request):
+    if request.method == 'POST':
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.lecturer = request.user
+            task.save()
+            messages.success(request, 'Task created successfully.')
+            return redirect('create_task')
+    else:
+        form = TaskForm()
+
+    return render(request, 'create_task.html', {'form': form})
+
+
+def submit_assignment(request, task_id):
+    task = Task.objects.get(pk=task_id)
+    if request.method == 'POST':
+        form = AssignmentForm(request.POST, request.FILES)
+        if form.is_valid():
+            assignment = form.save(commit=False)
+            assignment.student = request.user
+            assignment.task = task
+            assignment.save()
+            messages.success(request, 'Assignment submitted successfully.')
+            return redirect('submit_assignment', task_id=task_id)
+    else:
+        form = AssignmentForm()
+    return render(request, 'submit_assignment.html', {'form': form, 'task': task})
+
+
+def record_attendance(request, subject_id):
+    subject = get_object_or_404(Subject, pk=subject_id)
+    students = CustomUser.objects.filter(student_profile__subjects=subject)
+
+    if request.method == 'POST':
+        form = AttendanceForm(request.POST)
+        if form.is_valid():
+            attendance = form.save(commit=False)
+            attendance.subject = subject
+            attendance.save()
+            form.save_m2m()  # Save many-to-many relationships
+            messages.success(request, 'Attendance recorded successfully.')
+            return redirect('record_attendance', subject_id=subject_id)
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Error in {field}: {error}")
+
+    else:
+        form = AttendanceForm()
+
+    return render(request, 'record_attendance.html', {'form': form, 'subject': subject, 'students': students})
