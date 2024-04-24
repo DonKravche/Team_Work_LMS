@@ -15,12 +15,13 @@ class Faculty(models.Model):
 
 
 class Subject(models.Model):
+    lecturers = models.ManyToManyField('Lecture', related_name='subjects')
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, verbose_name=_("Subject Name"))
     description = models.TextField(verbose_name=_("Subject Description"))
     syllabus = models.FileField(upload_to='syllabus/', verbose_name=_("Syllabus"))
     faculties = models.ManyToManyField(Faculty, related_name='subjects')
-    lecturers = models.ManyToManyField('Lecture', related_name='subjects')
+    # lecturers = models.ManyToManyField('Lecture', related_name='subjects')
 
     def __str__(self):
         return self.title
@@ -44,11 +45,14 @@ class Lecture(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student')
-    name = models.CharField(max_length=255, verbose_name=_("Student Name"))
-    surname = models.CharField(max_length=255, verbose_name=_("Student Surname"))
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE, related_name='students', verbose_name=_('Faculty'),
                                 null=True, blank=True)
     subjects = models.ManyToManyField(Subject, verbose_name=_('Subjects'))
+    name = models.CharField(max_length=255, verbose_name=_("Student Name"))
+    surname = models.CharField(max_length=255, verbose_name=_("Student Surname"))
+    # faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE, related_name='students', verbose_name=_('Faculty'),
+    #                             null=True, blank=True)
+    # subjects = models.ManyToManyField(Subject, verbose_name=_('Subjects'))
 
     def __str__(self):
         return f"{self.name} {self.surname}"

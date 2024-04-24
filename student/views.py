@@ -1,8 +1,8 @@
 from django.http import HttpResponseBadRequest
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from .forms import UserRegistrationForm, UserLoginForm
-from .models import Student, Subject
+from django.contrib.auth import login, logout
+from student.forms import UserRegistrationForm, UserLoginForm
+from student.models import Student, Subject
 
 
 def home(request):
@@ -47,7 +47,7 @@ def students_page(request):
         selected_subjects_ids = request.POST.getlist('students_page')
         if len(selected_subjects_ids) < 3 or len(selected_subjects_ids) > 7:
             return render(request, 'students_page.html', {'message': 'Please select at least 3 & max 7 subjects.',
-                                                          'faculty_subjects': faculty_subjects},)
+                                                          'faculty_subjects': faculty_subjects}, )
         else:
             selected_subjects = Subject.objects.filter(pk__in=selected_subjects_ids)
             student.subjects.set(selected_subjects)
@@ -58,3 +58,8 @@ def students_page(request):
             'faculty_subjects': faculty_subjects
         }
         return render(request, 'students_page.html', context)
+
+
+def logout_(request):
+    logout(request)
+    return redirect('home')
