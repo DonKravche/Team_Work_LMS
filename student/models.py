@@ -4,18 +4,13 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
-# Define a custom user model by extending AbstractUser
 class CustomUser(AbstractUser):
-    # Add any additional fields here
-    # For example, you might want to add fields like 'is_student' and 'is_lecturer'
     is_student = models.BooleanField(default=False)
     is_lecturer = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username
 
-
-# Other models in your app
 
 class Faculty(models.Model):
     name = models.CharField(verbose_name=_("Faculty name"), max_length=255)
