@@ -7,7 +7,7 @@ from .models import CustomUser
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
     list_display = ['username', 'email', 'is_student',
-                    'is_lecturer']  # Customize the fields displayed in the admin list
+                    'is_lecturer']
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         ('Permissions', {'fields': ('is_staff', 'is_superuser', 'is_student', 'is_lecturer')}),
