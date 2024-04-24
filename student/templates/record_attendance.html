@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Record Attendance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #EEEEEE;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #DDDDDD;
+            border-radius: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        fieldset {
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        legend {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            background-color: #76885B;
+            color: #DDDDDD;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #627254;
+        }
+
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            color: #DD0000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Record Attendance for "{{ subject }}"</h1>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="id_date">Date:</label>
+        {{ form.date }}
+        <fieldset>
+            <legend>Students:</legend>
+            {% for student in students %}
+                <div>
+                    <input type="checkbox" id="student_{{ student.id }}" name="students" value="{{ student.id }}">
+                    <label for="student_{{ student.id }}">{{ student }}</label>
+                </div>
+            {% endfor %}
+        </fieldset>
+        <button type="submit">Record Attendance</button>
+    </form>
+</body>
+</html>
