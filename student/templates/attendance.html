@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% extends 'answer.html' %}
+
+{% block content %}
+  <h1>Record Attendance</h1>
+  <form method="post" action="{% url 'record_attendance' subject %}">
+    {% csrf_token %}
+    <label for="subject">Subject:</label>
+    <input type="text" id="subject" name="subject" required>
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" required>
+    <h2>Students</h2>
+    <ul>
+      {% for student in students %}
+        <li>
+          <label>
+            <input type="checkbox" name="students" value="{{ student.id }}">
+            {{ student.username }}
+          </label>
+        </li>
+      {% endfor %}
+    </ul>
+    <button type="submit">Save Attendance</button>
+  </form>
+{% endblock %}
+</body>
+</html>

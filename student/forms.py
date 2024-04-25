@@ -5,6 +5,10 @@ from django import forms
 from student.models import Faculty, Student
 
 
+from django import forms
+from .models import Task, Submission
+
+
 class UserRegistrationForm(UserCreationForm):
     name = forms.CharField(max_length=255, required=True)
     surname = forms.CharField(max_length=255, required=True)
@@ -35,3 +39,14 @@ class UserLoginForm(AuthenticationForm):
         super().__init__(*args, **kwargs)
         self.fields['username'].label = 'Username'
         self.fields['password'].label = 'Password'
+
+
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ['text', 'execution_date']
+
+class SubmissionForm(forms.ModelForm):
+    class Meta:
+        model = Submission
+        fields = ['file', 'text']

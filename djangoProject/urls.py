@@ -16,10 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
+from student import views
 from student.views import home
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('student/', include('student.urls')),
-    path("", home, name="home")
+    path("", home, name="home"),
+
+    path('tasks/create/', views.create_task, name='create_task'),
+    path('tasks/<int:task_id>/submit/', views.submit_assignment, name='submit_assignment'),
+    path('attendance/<str:subject>/', views.record_attendance, name='record_attendance'),
 ]

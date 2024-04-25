@@ -56,3 +56,20 @@ class Student(models.Model):
     class Meta:
         verbose_name = _('Student')
         verbose_name_plural = _('Students')
+
+
+class Task(models.Model):
+    text = models.TextField()
+    execution_date = models.DateField()
+
+
+class Submission(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='submissions')
+    file = models.FileField(upload_to='submissions/')
+    text = models.TextField()
+
+
+class Attendance(models.Model):
+    subject = models.CharField(max_length=100)
+    date = models.DateField()
+    students = models.ManyToManyField('auth.User', related_name='attendance_records')
