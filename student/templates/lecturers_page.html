@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecturer's Page</title>
+</head>
+<body>
+<h1>Welcome, {{ user.username }}</h1>
+{% if subjects %}
+    <p>Your Subjects:</p>
+    <ul>
+        {% for subject in subjects %}
+            <li>{{ subject.title }}</li>  
+        {% endfor %}
+    </ul>
+    <button onclick="window.location.href='{% url 'record_attendance' subject_id=1 %}'">Record Attendance</button>
+    <button onclick="window.location.href='{% url 'create_task' %}'">Create Task</button>
+{% else %}
+    <p>No subjects found.</p>
+{% endif %}
+</body>
+</html>

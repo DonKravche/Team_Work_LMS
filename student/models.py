@@ -7,6 +7,8 @@ from django.utils.translation import gettext_lazy as _
 class CustomUser(AbstractUser):
     is_student = models.BooleanField(default=False)
     is_lecturer = models.BooleanField(default=False)
+    subjects = models.ManyToManyField('Subject', related_name='students',
+                                      verbose_name=_('Subjects'))
 
     def __str__(self):
         return self.username

@@ -2,7 +2,9 @@ from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .forms import UserRegistrationForm, UserLoginForm, TaskForm, AssignmentForm, AttendanceForm
-from .models import Student, Subject, Task, Assignment, Attendance, CustomUser
+from .models import Student, Subject, Task, Assignment, Attendance, CustomUser, Lecture
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
@@ -34,10 +36,26 @@ def login_(request):
             if user.is_student:
                 return redirect('students_page')
             elif user.is_lecturer:
-                return redirect('record_attendance', subject_id=1)
+                return redirect('lecturers_page')
     else:
         form = UserLoginForm()
     return render(request, 'login.html', {'form': form})
+
+
+@login_required
+def lecturers_page(request):
+    if request.user.is_authenticated:
+        # User is a lecturer
+        lecturer = request.user
+        try:
+            lecture = Lecture.objects.get(name=lecturer.username)
+            subjects = Subject.objects.filter(lecturers=lecture)
+            return render(request, 'lecturers_page.html', {'user': lecturer, 'subjects': subjects})
+        except ObjectDoesNotExist:
+            message = "You are not associated with any lecture."
+            return render(request, 'lecturers_page.html', {'user': lecturer, 'message': message})
+    else:
+        return redirect('home')
 
 
 def students_page(request):
@@ -107,7 +125,7 @@ def record_attendance(request, subject_id):
             attendance = form.save(commit=False)
             attendance.subject = subject
             attendance.save()
-            form.save_m2m()  # Save many-to-many relationships
+            form.save_m2m()
             messages.success(request, 'Attendance recorded successfully.')
             return redirect('record_attendance', subject_id=subject_id)
         else:

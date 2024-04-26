@@ -1,13 +1,18 @@
 from student.models import Student, Faculty, Subject, Lecture
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from student.models import CustomUser
+
+
+class SubjectInline(admin.TabularInline):
+    model = CustomUser.subjects.through
+    verbose_name = "Subject"
+    verbose_name_plural = "Subjects"
 
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-    list_display = ['username', 'email', 'is_student',
-                    'is_lecturer']
+    list_display = ['username', 'email', 'is_student', 'is_lecturer']
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         ('Permissions', {'fields': ('is_staff', 'is_superuser', 'is_student', 'is_lecturer')}),
@@ -19,6 +24,7 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('username', 'email', 'password1', 'password2', 'is_student', 'is_lecturer'),
         }),
     )
+    inlines = [SubjectInline]
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
