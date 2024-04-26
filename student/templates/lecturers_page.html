@@ -84,15 +84,14 @@
     <h1>Welcome, {{ user.username }}</h1>
 </header>
 
-
-
 <div class="container">
     <div class="button-container">
-        <button onclick="window.location.href='{% url 'record_attendance' subject_id=1 %}'">Record Attendance</button>
+        {% for subject in subjects %}
+            <button onclick="window.location.href='{% url 'record_attendance' subject_id=subject.id %}'">{{ subject.title }}</button>
+        {% endfor %}
         <button onclick="window.location.href='{% url 'create_task' %}'">Create Task</button>
     </div>
-    <!-- Additional content can be added here -->
 </div>
-
 </body>
 </html>
+

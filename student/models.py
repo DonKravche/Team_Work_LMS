@@ -1,5 +1,6 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -74,7 +75,7 @@ class Attendance(models.Model):
 
 
 class Subject(models.Model):
-    lecturers = models.ManyToManyField('Lecture', related_name='subjects')
+    lecturers = models.ManyToManyField('Lecturer', related_name='subjects')
     title = models.CharField(max_length=255, verbose_name=_("Subject Name"))
     description = models.TextField(verbose_name=_("Subject Description"))
     syllabus = models.FileField(upload_to='syllabus/', verbose_name=_("Syllabus"))
@@ -88,9 +89,10 @@ class Subject(models.Model):
         verbose_name_plural = _('Subjects')
 
 
-class Lecture(models.Model):
-    name = models.CharField(max_length=255, verbose_name=_("Lecture Name"))
-    surname = models.CharField(max_length=255, verbose_name=_("Lecture Surname"))
+class Lecturer(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='lecturer')
+    name = models.CharField(max_length=255, verbose_name=_("Lecturer Name"))
+    surname = models.CharField(max_length=255, verbose_name=_("Lecturer Surname"))
 
     def __str__(self):
         return f"{self.name} {self.surname}"

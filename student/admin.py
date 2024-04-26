@@ -1,4 +1,4 @@
-from student.models import Student, Faculty, Subject, Lecture
+from student.models import Student, Faculty, Subject, Lecturer
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from student.models import CustomUser
@@ -47,6 +47,6 @@ class SubjectAdmin(admin.ModelAdmin):
     list_display = ('title',)  # Wrap the field name in a tuple
 
 
-@admin.register(Lecture)
+@admin.register(Lecturer)
 class LectureAdmin(admin.ModelAdmin):
     list_display = ('name', 'surname')

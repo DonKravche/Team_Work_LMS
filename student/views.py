@@ -1,8 +1,8 @@
 from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .forms import UserRegistrationForm, UserLoginForm, TaskForm, AssignmentForm, AttendanceForm
-from .models import Student, Subject, Task, Assignment, Attendance, CustomUser, Lecture
+from student.forms import UserRegistrationForm, UserLoginForm, TaskForm, AssignmentForm, AttendanceForm
+from student.models import Student, Subject, Task, Assignment, Attendance, CustomUser, Lecturer
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
@@ -53,15 +53,14 @@ def students_base(request):
 def lecturers_page(request):
     if request.user.is_authenticated:
         # User is a lecturer
-        lecturer = request.user
+        lecturer = request.user.lecturer  # get the lecturer object
 
         try:
-            # lecture = Lecture.objects.get(name=lecturer.username)
-            # subjects = Subject.objects.filter(lecturers=lecture)
-            return render(request, 'lecturers_page.html', {'user': lecturer})
-        except ObjectDoesNotExist:
-            message = "You are not associated with any lecture."
-            return render(request, 'lecturers_page.html', {'user': lecturer, 'message': message})
+            subjects = Subject.objects.filter(lecturers=lecturer)
+            return render(request, 'lecturers_page.html', {'user': request.user, 'subjects': subjects})
+        except Subject.DoesNotExist:
+            message = "You are not associated with any Subject."
+            return render(request, 'lecturers_page.html', {'user': request.user, 'message': message})
     else:
         return redirect('home')
 
