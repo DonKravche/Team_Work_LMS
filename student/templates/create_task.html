@@ -76,8 +76,29 @@
             color: #a94442;
             margin-top: 5px;
         }
+        nav {
+            background-color: #76885B;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: #DDDDDD;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #DDDDDD;
+            color: #333;
+        }
     </style>
 </head>
+<nav>
+    <a href="{% url 'logout_' %}">Logout</a>
+</nav>
 <body>
 <div class="container">
     <h1>Create Task</h1>

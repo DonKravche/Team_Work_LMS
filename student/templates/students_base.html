@@ -3,20 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lecturer's Page</title>
+    <title>Student Dashboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #EEEEEE;
-        }
-
-        header {
-            background-color: #627254;
-            color: #DDDDDD;
-            padding: 20px;
-            text-align: center;
         }
 
         nav {
@@ -38,25 +31,34 @@
             color: #333;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        header {
+            background-color: #627254;
+            color: #DDDDDD;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #FFFFFF;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
             margin-top: 20px;
             margin-bottom: 30px;
-            color: black;
+            color: #333333;
+        }
+
+        h2 {
+            color: #333333;
         }
 
         .button-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
+            margin-top: 20px;
         }
 
         button {
@@ -84,14 +86,12 @@
     <h1>Welcome, {{ user.username }}</h1>
 </header>
 
-
-
 <div class="container">
+    <h2>Student Dashboard</h2>
     <div class="button-container">
-        <button onclick="window.location.href='{% url 'record_attendance' subject_id=1 %}'">Record Attendance</button>
-        <button onclick="window.location.href='{% url 'create_task' %}'">Create Task</button>
+        <a href="{% url 'students_page' %}"><button>Students Page</button></a>
+        <a href="{% url 'submit_assignment' task_id=task_id %}"><button>Submit Assignment</button></a>
     </div>
-    <!-- Additional content can be added here -->
 </div>
 
 </body>

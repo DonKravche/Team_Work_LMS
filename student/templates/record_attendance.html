@@ -67,8 +67,29 @@
             text-align: center;
             color: #DD0000;
         }
+        nav {
+            background-color: #76885B;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: #DDDDDD;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #DDDDDD;
+            color: #333;
+        }
     </style>
 </head>
+<nav>
+    <a href="{% url 'logout_' %}">Logout</a>
+</nav>
 <body>
     <h1>Record Attendance for "{{ subject }}"</h1>
     {% if messages %}
@@ -94,4 +115,5 @@
         <button type="submit">Record Attendance</button>
     </form>
 </body>
+
 </html>

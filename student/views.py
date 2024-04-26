@@ -34,7 +34,7 @@ def login_(request):
             user = form.get_user()
             login(request, user)
             if user.is_student:
-                return redirect('students_page')
+                return redirect('students_base')
             elif user.is_lecturer:
                 return redirect('lecturers_page')
     else:
@@ -43,14 +43,22 @@ def login_(request):
 
 
 @login_required
+def students_base(request):
+    task = Task.objects.first()
+    context = {'task_id': task.id}
+    return render(request, 'students_base.html', context)
+
+
+@login_required
 def lecturers_page(request):
     if request.user.is_authenticated:
         # User is a lecturer
         lecturer = request.user
+
         try:
-            lecture = Lecture.objects.get(name=lecturer.username)
-            subjects = Subject.objects.filter(lecturers=lecture)
-            return render(request, 'lecturers_page.html', {'user': lecturer, 'subjects': subjects})
+            # lecture = Lecture.objects.get(name=lecturer.username)
+            # subjects = Subject.objects.filter(lecturers=lecture)
+            return render(request, 'lecturers_page.html', {'user': lecturer})
         except ObjectDoesNotExist:
             message = "You are not associated with any lecture."
             return render(request, 'lecturers_page.html', {'user': lecturer, 'message': message})
@@ -64,8 +72,8 @@ def students_page(request):
 
     if request.method == 'POST':
         selected_subjects_ids = request.POST.getlist('students_page')
-        if len(selected_subjects_ids) < 3 or len(selected_subjects_ids) > 7:
-            return render(request, 'students_page.html', {'message': 'Please select at least 3 & max 7 subjects.',
+        if len(selected_subjects_ids) < 2 or len(selected_subjects_ids) > 7:
+            return render(request, 'students_page.html', {'message': 'Please select at least 2 & max 7 subjects.',
                                                           'faculty_subjects': faculty_subjects}, )
         else:
             selected_subjects = Subject.objects.filter(pk__in=selected_subjects_ids)
