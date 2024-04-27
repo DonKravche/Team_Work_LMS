@@ -1,13 +1,34 @@
+from student.models import Student, Faculty, Subject, Lecturer
 from django.contrib import admin
-
-# Register your models here.
-
-from django.contrib import admin
-
-from student.models import Student, Faculty, Subject, Lecture
+from django.contrib.auth.admin import UserAdmin
+from student.models import CustomUser
 
 
-# Register your models here.
+class SubjectInline(admin.TabularInline):
+    model = CustomUser.subjects.through
+    verbose_name = "Subject"
+    verbose_name_plural = "Subjects"
+
+
+class CustomUserAdmin(UserAdmin):
+    model = CustomUser
+    list_display = ['username', 'email', 'is_student', 'is_lecturer']
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Permissions', {'fields': ('is_staff', 'is_superuser', 'is_student', 'is_lecturer')}),
+        ('Important dates', {'fields': ('last_login',)}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'password1', 'password2', 'is_student', 'is_lecturer'),
+        }),
+    )
+    inlines = [SubjectInline]
+
+
+admin.site.register(CustomUser, CustomUserAdmin)
+
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
@@ -26,6 +47,6 @@ class SubjectAdmin(admin.ModelAdmin):
     list_display = ('title',)  # Wrap the field name in a tuple
 
 
-@admin.register(Lecture)
+@admin.register(Lecturer)
 class LectureAdmin(admin.ModelAdmin):
     list_display = ('name', 'surname')

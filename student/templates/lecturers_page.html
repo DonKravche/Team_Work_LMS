@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecturer's Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #EEEEEE;
+        }
+
+        header {
+            background-color: #627254;
+            color: #DDDDDD;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #76885B;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: #DDDDDD;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #DDDDDD;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin-top: 20px;
+            margin-bottom: 30px;
+            color: black;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background-color: #76885B;
+            color: #DDDDDD;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #627254;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="{% url 'logout_' %}">Logout</a>
+</nav>
+
+<header>
+    <h1>Welcome, {{ user.username }}</h1>
+</header>
+
+<div class="container">
+    <div class="button-container">
+        {% for subject in subjects %}
+            <button onclick="window.location.href='{% url 'record_attendance' subject_id=subject.id %}'">{{ subject.title }}</button>
+        {% endfor %}
+        <button onclick="window.location.href='{% url 'create_task' %}'">Create Task</button>
+    </div>
+</div>
+</body>
+</html>
+
