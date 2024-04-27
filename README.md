@@ -86,7 +86,7 @@ To run this project locally, follow these steps:
 ![img.png](static/media/readme files/img_5.png)
 
 ## Contributors
-- [Don Kravche](Giorgi Kravchenko)
+- [Don_Kravche](Giorgi Kravchenko)
 - [iraklius9](Irakli Meparishvili)
-- [Gvantise](Gvantsa Euashvili)
+- [Gvantsie](Gvantsa Euashvili)
 
