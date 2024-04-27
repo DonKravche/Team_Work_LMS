@@ -62,7 +62,7 @@
         <div class="message">
             <p>You have successfully registered on the following subjects:</p>
             <ul>
-            {% for subject in user.student.subjects.all %}
+            {% for subject in selected_subjects %}
             <li>
                 {{ subject.title }}
             </li>

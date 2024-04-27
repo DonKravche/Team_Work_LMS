@@ -90,7 +90,9 @@
     <h2>Student Dashboard</h2>
     <div class="button-container">
         <a href="{% url 'students_page' %}"><button>Students Page</button></a>
-        <a href="{% url 'submit_assignment' task_id=task_id %}"><button>Submit Assignment</button></a>
+        {% if task_id %}
+            <a href="{% url 'submit_assignment' task_id=task_id %}"><button>Submit Assignment</button></a>
+        {% endif %}
     </div>
 </div>
 

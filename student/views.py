@@ -45,8 +45,13 @@ def login_(request):
 @login_required
 def students_base(request):
     task = Task.objects.first()
-    context = {'task_id': task.id}
-    return render(request, 'students_base.html', context)
+    if task:  # Check if task is not None
+        context = {'task_id': task.id}
+        return render(request, 'students_base.html', context)
+    else:
+        # Handle the case where no Task objects exist
+        context = {'message': 'No tasks available.'}
+        return render(request, 'students_base.html', context)
 
 
 @login_required
@@ -77,6 +82,7 @@ def students_page(request):
         else:
             selected_subjects = Subject.objects.filter(pk__in=selected_subjects_ids)
             student.subjects.set(selected_subjects)
+            print(selected_subjects)
             return render(request, 'answer.html', {'user': request.user, 'selected_subjects': selected_subjects})
     else:
         context = {
