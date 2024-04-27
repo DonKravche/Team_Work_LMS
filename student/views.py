@@ -205,5 +205,9 @@ def submitted_assignments(request):
         tasks = Task.objects.filter(lecturer=request.user)
         assignments = Assignment.objects.filter(task__in=tasks)
         return render(request, 'submitted_assignments.html', {'assignments': assignments})
+    elif hasattr(request.user, 'student'):
+        student = Student.objects.get(user=request.user)
+        assignments = Assignment.objects.filter(student=student)
+        return render(request, 'submitted_assignments.html', {'assignments': assignments})
     else:
         return redirect('home')

@@ -53,14 +53,23 @@ class Task(models.Model):
 
 
 class Assignment(models.Model):
-    student = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='assignments',
-                                verbose_name=_("Student"))
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='assignments', verbose_name=_("Task"))
+    student = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='assignments',
+        verbose_name=_("Student")
+    )
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.CASCADE,
+        related_name='assignments',
+        verbose_name=_("Task")
+    )
     description = models.TextField(verbose_name=_("Assignment Description"))
     attached_file = models.FileField(upload_to='assignments/', verbose_name=_("Attached File"))
 
     def __str__(self):
-        return self.description
+        return f"Assignment {self.id} - {self.student.username}"
 
 
 class Attendance(models.Model):
