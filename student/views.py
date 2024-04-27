@@ -6,6 +6,9 @@ from student.models import Student, Subject, Task, Assignment, Attendance, Custo
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 
+from django.contrib.auth.decorators import login_required
+from .models import Task, Assignment
+
 
 def home(request):
     return render(request, 'home.html')
@@ -54,17 +57,37 @@ def students_base(request):
         return render(request, 'students_base.html', context)
 
 
+# @login_required
+# def lecturers_page(request):
+#     if request.user.is_authenticated:
+#         # User is a lecturer
+#         lecturer = request.user.lecturer  # get the lecturer object
+#
+#         try:
+#             subjects = Subject.objects.filter(lecturers=lecturer)
+#             return render(request, 'lecturers_page.html', {'user': request.user, 'subjects': subjects})
+#         except Subject.DoesNotExist:
+#             message = "You are not associated with any Subject."
+#             return render(request, 'lecturers_page.html', {'user': request.user, 'message': message})
+#     else:
+#         return redirect('home')
+
 @login_required
 def lecturers_page(request):
     if request.user.is_authenticated:
         # User is a lecturer
-        lecturer = request.user.lecturer  # get the lecturer object
+        if hasattr(request.user, 'lecturer'):
+            lecturer = request.user.lecturer  # get the lecturer object
 
-        try:
-            subjects = Subject.objects.filter(lecturers=lecturer)
-            return render(request, 'lecturers_page.html', {'user': request.user, 'subjects': subjects})
-        except Subject.DoesNotExist:
-            message = "You are not associated with any Subject."
+            try:
+                subjects = Subject.objects.filter(lecturers=lecturer)
+                return render(request, 'lecturers_page.html', {'user': request.user, 'subjects': subjects})
+            except Subject.DoesNotExist:
+                message = "You are not associated with any Subject."
+                return render(request, 'lecturers_page.html', {'user': request.user, 'message': message})
+        else:
+            # Handle the case where the user doesn't have a related Lecturer instance
+            message = "You are not a lecturer."
             return render(request, 'lecturers_page.html', {'user': request.user, 'message': message})
     else:
         return redirect('home')
@@ -150,3 +173,41 @@ def record_attendance(request, subject_id):
         form = AttendanceForm()
 
     return render(request, 'record_attendance.html', {'form': form, 'subject': subject, 'students': students})
+
+
+# @login_required
+# def submitted_assignments(request):
+#     if request.user.is_authenticated and hasattr(request.user, 'lecturer'):
+#         lecturer = request.user.lecturer
+#         subjects = Subject.objects.filter(lecturers=lecturer)
+#         tasks = Task.objects.filter(subject__in=subjects)
+#         assignments = Assignment.objects.filter(task__in=tasks)
+#         return render(request, 'submitted_assignments.html', {'assignments': assignments})
+#     else:
+#         return redirect('home')
+
+
+# @login_required
+# def submitted_assignments(request):
+#     if hasattr(request.user, 'lecturer'):
+#         tasks = Task.objects.filter(lecturer=request.user)
+#         assignments = Assignment.objects.filter(task__in=tasks)
+#         print(assignments)
+#         return render(request, 'submitted_assignments.html', {'assignments': assignments})
+#     else:
+#         return redirect('home')
+
+
+@login_required
+def submitted_assignments(request):
+    if hasattr(request.user, 'lecturer'):
+        lecturer = Lecturer.objects.get(user=request.user)
+        tasks = Task.objects.filter(lecturer=request.user)
+        assignments = Assignment.objects.filter(task__in=tasks)
+        return render(request, 'submitted_assignments.html', {'assignments': assignments})
+    elif hasattr(request.user, 'student'):
+        student = Student.objects.get(user=request.user)
+        assignments = Assignment.objects.filter(student=student)
+        return render(request, 'submitted_assignments.html', {'assignments': assignments})
+    else:
+        return redirect('home')

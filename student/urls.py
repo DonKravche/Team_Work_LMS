@@ -14,4 +14,5 @@ urlpatterns = [
     path('record-attendance/<int:subject_id>/', views.record_attendance, name='record_attendance'),
     path('lecturers_page/', views.lecturers_page, name='lecturers_page'),
     path('students_base', views.students_base, name='students_base'),
+    path('submitted_assignments/', views.submitted_assignments, name='submitted_assignments'),
 ]

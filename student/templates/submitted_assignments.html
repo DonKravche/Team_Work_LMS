@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submitted Assignments</title>
+</head>
+<body>
+<h1>Submitted Assignments</h1>
+{% if assignments %}
+    {% for assignment in assignments %}
+        <div>
+            <h3>Task: {{ assignment.task.description }}</h3>
+            <p>Student: {{ assignment.student.username }}</p>
+            <p>Submission Date: {{ assignment.submission_date }}</p>
+            <a href="{{ assignment.attached_file.url }}" target="_blank">View Submission</a>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No assignments submitted yet.</p>
+{% endif %}
+</body>
+
+</html>

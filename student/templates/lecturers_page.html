@@ -89,9 +89,8 @@
         {% for subject in subjects %}
             <button onclick="window.location.href='{% url 'record_attendance' subject_id=subject.id %}'">{{ subject.title }}</button>
         {% endfor %}
-        <button onclick="window.location.href='{% url 'create_task' %}'">Create Task</button>
+    <button onclick="window.location.href='{% url 'create_task' %}'">Create Task</button>
+    <button onclick="window.location.href='{% url 'submitted_assignments' %}'">View Submitted Assignments</button>
     </div>
 </div>
 </body>
-</html>
-
