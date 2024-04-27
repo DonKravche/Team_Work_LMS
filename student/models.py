@@ -66,6 +66,7 @@ class Assignment(models.Model):
         verbose_name=_("Task")
     )
     description = models.TextField(verbose_name=_("Assignment Description"))
+    submission_date = models.DateField(verbose_name=_("Submission Date"), null=True, blank=True)
     attached_file = models.FileField(upload_to='assignments/', verbose_name=_("Attached File"))
 
     def __str__(self):

@@ -45,7 +45,7 @@ class TaskForm(forms.ModelForm):
 class AssignmentForm(forms.ModelForm):
     class Meta:
         model = Assignment
-        fields = ['description', 'attached_file']
+        fields = ['description', 'attached_file', 'submission_date']
 
 
 class AttendanceForm(forms.ModelForm):
