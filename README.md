@@ -68,22 +68,18 @@ To run this project locally, follow these steps:
 6. Open your web browser and go to http://localhost:8000/home/ to access the application.
 
 
-## Endpoints and Interface  
+## Endpoints
 
 - https://localhost:8000/home/ - Home page
-![img.png](static/media/readme files/img.png)
 
-- http://localhost:8000/student/register/ - Register page   
-![img1.png](static/media/readme files/img1.png)
+- http://localhost:8000/student/register/ - Register page  
 
-- http://localhost:8000/student/login/ - Login page     
-![img_2.png](static/media/readme files/img_2.png)
+- http://localhost:8000/student/login/ - Login page 
 
-- https://localhost:8000/students_page/ - Students page      
-![img_3.png](static/media/readme files/img_3.png)
+- https://localhost:8000/students_page/ - Students page
 
 - https://localhost:8000/admin/ - Default Admin page     
-![img.png](static/media/readme files/img_5.png)
+
 
 ## Contributors
 - [Don_Kravche](Giorgi Kravchenko)
