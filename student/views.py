@@ -210,4 +210,4 @@ def submitted_assignments(request):
         assignments = Assignment.objects.filter(student=student)
         return render(request, 'submitted_assignments.html', {'assignments': assignments})
     else:
-        return redirect('home')
+        return render(request, 'lecturers_page.html', {'message': 'You do not have any assignments to check.'})

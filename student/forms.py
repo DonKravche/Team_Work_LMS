@@ -37,9 +37,13 @@ class UserLoginForm(AuthenticationForm):
 
 
 class TaskForm(forms.ModelForm):
+    faculty = forms.ModelChoiceField(queryset=Faculty.objects.all(), required=True)
+    title = forms.CharField(max_length=255, required=True)
+    subject = forms.CharField(max_length=255, required=True)
+
     class Meta:
         model = Task
-        fields = ['description', 'execution_date']
+        fields = ['description', 'execution_date', 'faculty', 'title', 'subject']
 
 
 class AssignmentForm(forms.ModelForm):
